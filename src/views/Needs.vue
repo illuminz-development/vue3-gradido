@@ -6,7 +6,7 @@
                     <div class="card-header pb-0">
                         <h6>Needs List</h6>
                     </div>
-                    <filters :callback="fetch" :filters="{ community: '', category: '' }" />
+                    <filters :callback="fetch" :filters="{ communityId: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
@@ -18,10 +18,10 @@
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Description</th>
-                                        <th
+                                        <!-- <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Category
-                                        </th>
+                                        </th> -->
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Community
@@ -47,13 +47,13 @@
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">{{ item.description }}</p>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <span class="text-xs font-weight-bold">{{
                                                 item.category }}</span>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
-                                                item.community }}</span>
+                                                item.CommunityProfile.name }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{

@@ -72,15 +72,23 @@ export default {
                 this.categoriesList = response.data.responseData.data;
             })
         },
+        clean(obj) {
+            for (var propName in obj) {
+                if (obj[propName] === null || obj[propName] === undefined || obj[propName].length === 0) {
+                    delete obj[propName];
+                }
+            }
+            return obj
+        },
         applyFilter() {
             console.log('this.filter', this.filter)
             this.$router.replace({ query: { ...this.filter } })
-            this.callback(this.filter);
+            this.callback(this.clean(this.filter));
         }
     },
 
     created() {
-        this.callback(this.filter);
+        this.callback(this.clean(this.filter));
         this.communities();
         this.categories();
     }
