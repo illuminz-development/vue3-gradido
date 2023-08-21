@@ -2,7 +2,7 @@ import api from './api';
 
 class CommunityService {
   list(params = {}) {
-    return api.get('/community/list', params);
+    return api.get('/community/list', {params});
   }
 
   add(data) {

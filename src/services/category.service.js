@@ -2,7 +2,7 @@ import api from './api';
 
 class CategoryService {
   list(params = {}) {
-    return api.get('/categories', params);
+    return api.get('/category/list', {params: {type: 'community', ...params}});
   }
 }
 

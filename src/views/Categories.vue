@@ -11,37 +11,22 @@
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Name
                                         </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Radius</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Location
-                                        </th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr v-if="list.length === 0">
+                                        <td align="center" colspan="2">No record found.</td>
+                                    </tr>
+                                    <tr v-for="item in list" :key="item">
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">Spotify</h6>
+                                                    <h6 class="mb-0 text-sm">{{ item.name }}</h6>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-sm font-weight-bold mb-0">10 mile</p>
-                                        </td>
-                                        <td>
-                                            <span class="text-xs font-weight-bold">Chandigarh</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <button class="btn btn-link text-secondary mb-0">
-                                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -61,19 +46,20 @@ export default {
     name: "categories-list",
     data() {
         return {
-            list: [],
-            filters: {}
+            list: []
         }
     },
     methods: {
-        fetch() {
-            CategoryService.list(this.filters).then(response => {
+        fetch(filters) {
+            CategoryService.list(filters).then(response => {
                 console.log('response', response)
+                this.list = response.data.responseData.data;
             })
         }
     },
+
     created() {
         this.fetch();
-    },
+    }
 }
 </script>

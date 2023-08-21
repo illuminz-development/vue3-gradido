@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import Tables from "../views/Tables.vue";
 import Communities from '../views/Communities.vue';
+import CommunityUsers from '../views/CommunityUsers.vue';
 import AddCommunity from '../views/AddCommunity.vue';
 import EditCommunity from '../views/EditCommunity.vue';
 import Categories from '../views/Categories.vue';
@@ -31,6 +32,11 @@ const routes = [
     path: "/communities",
     name: "Communities",
     component: Communities,
+  },
+  {
+    path: "/community/users",
+    name: "CommunityUsers",
+    component: CommunityUsers,
   },
   {
     path: "/communities/add",

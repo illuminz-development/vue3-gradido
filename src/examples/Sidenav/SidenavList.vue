@@ -18,6 +18,14 @@
         </sidenav-item>
       </li>
       <li class="nav-item">
+        <sidenav-item url="/community/users" :class="getRoute() === 'community/users' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'الجداول' : 'Community Users'">
+          <template v-slot:icon>
+            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="nav-item">
         <sidenav-item url="/categories" :class="getRoute() === 'categories' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Categories'">
           <template v-slot:icon>

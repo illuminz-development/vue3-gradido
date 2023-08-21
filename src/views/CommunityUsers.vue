@@ -4,60 +4,65 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Offers List</h6>
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Community Users List</p>
+                        </div>
                     </div>
-                    <filters :callback="fetch" :filters="{ community: '', category: '' }" />
+                    <filters :callback="fetch" :filters="{ communityId: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name
+                                        </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Title
+                                            Email ID
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Contact
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Description</th>
+                                            Language</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Category
+                                            Location
                                         </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Community
-                                        </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Created At
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-if="list.length === 0">
-                                        <td align="center" colspan="5">No record found.</td>
+                                        <td align="center" colspan="6">No record found.</td>
                                     </tr>
                                     <tr v-for="item in list" :key="item">
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{ item.title }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ item.UserProfile.name }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.description }}</p>
+                                            <p class="text-sm font-weight-bold mb-0">{{ item.email }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{ item.countryCode }}{{ item.mobile }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{ item.UserProfile.language }}</p>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
-                                                item.category }}</span>
+                                                item.UserProfile.address }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
-                                                item.community }}</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-xs font-weight-bold">{{
-                                                formattedDate(item.createdAt) }}</span>
+                                                item.UserAccounts?.[0]?.name }}</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -71,29 +76,26 @@
 </template>
   
 <script>
-import OfferService from '../services/offer.service';
+import CommunityUserService from '../services/communityUser.service';
 import Filters from './components/Filters.vue';
-import moment from 'moment';
 
 export default {
-    name: "offers-list",
+    name: "community-users-list",
     components: {
         Filters
     },
     data() {
         return {
-            list: [],
+            list: []
         }
     },
     methods: {
-        fetch(filters = {}) {
-            OfferService.list(filters).then(response => {
+        fetch(filters) {
+            CommunityUserService.list(filters).then(response => {
                 this.list = response.data.responseData.data;
             })
-        },
-        formattedDate(date) {
-            return moment(date).format('MM-DD-YYYY');
         }
     }
 }
 </script>
+  
