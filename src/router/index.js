@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
-import Tables from "../views/Tables.vue";
+import Analytics from "../views/Analytics.vue";
 import Communities from '../views/Communities.vue';
+import CommunitiesList from '../views/CommunitiesList.vue';
 import CommunityUsers from '../views/CommunityUsers.vue';
 import AddCommunity from '../views/AddCommunity.vue';
 import EditCommunity from '../views/EditCommunity.vue';
@@ -9,11 +10,7 @@ import Categories from '../views/Categories.vue';
 import Tags from '../views/Tags.vue';
 import Offers from '../views/Offers.vue';
 import Needs from '../views/Needs.vue';
-import Billing from "../views/Billing.vue";
-import VirtualReality from "../views/VirtualReality.vue";
-import RTL from "../views/Rtl.vue";
 import Profile from "../views/Profile.vue";
-import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 import Logout from '../views/Logout.vue';
 
@@ -22,91 +19,140 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/dashboard",
+    meta: {
+      breadCrumbs: {
+        to: '/dashboard'
+      }
+    },
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
-  },
-  {
-    path: "/communities",
-    name: "Communities",
-    component: Communities,
-  },
-  {
-    path: "/community/users",
-    name: "CommunityUsers",
-    component: CommunityUsers,
-  },
-  {
-    path: "/communities/add",
-    name: "AddCommunity",
-    component: AddCommunity,
-  },
-  {
-    path: "/communities/edit/:id",
-    name: "EditCommunity",
-    component: EditCommunity,
-  },
-  {
-    path: "/categories",
-    name: "Categories",
-    component: Categories,
-  },
-  {
-    path: "/tags",
-    name: "Tags",
-    component: Tags,
-  },
-  {
-    path: "/offers",
-    name: "Offers",
-    component: Offers,
-  },
-  {
-    path: "/needs",
-    name: "Needs",
-    component: Needs,
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    component: Tables,
-  },
-  {
-    path: "/billing",
-    name: "Billing",
-    component: Billing,
-  },
-  {
-    path: "/virtual-reality",
-    name: "Virtual Reality",
-    component: VirtualReality,
-  },
-  {
-    path: "/rtl-page",
-    name: "RTL",
-    component: RTL,
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: Profile,
+    meta: {
+      breadCrumbs: {
+        to: '/dashboard'
+      }
+    },
+    children: [
+      {
+        path: "",
+        name: "Analytics",
+        component: Analytics,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard'
+          }
+        }
+      },
+      {
+        path: "communities",
+        name: "Communities",
+        component: Communities,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/communities'
+          }
+        },
+        children: [
+          {
+            path: "",
+            name: "CommunitiesList",
+            component: CommunitiesList,
+            meta: {
+              breadCrumbs: {
+                to: '/dashboard/communities'
+              }
+            },
+          },
+          {
+            path: "users",
+            name: "CommunityUsers",
+            component: CommunityUsers,
+            meta: {
+              breadCrumbs: {
+                to: '/dashboard/communities/users'
+              }
+            },
+          },
+          {
+            path: "add",
+            name: "AddCommunity",
+            component: AddCommunity,
+            meta: {
+              breadCrumbs: {
+                to: '/dashboard/communities/add'
+              }
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditCommunity",
+            component: EditCommunity,
+          }
+        ]
+      },
+      {
+        path: "categories",
+        name: "Categories",
+        component: Categories,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/categories'
+          }
+        },
+      },
+      {
+        path: "tags",
+        name: "Tags",
+        component: Tags,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/tags'
+          }
+        },
+      },
+      {
+        path: "offers",
+        name: "Offers",
+        component: Offers,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/offers'
+          }
+        },
+      },
+      {
+        path: "needs",
+        name: "Needs",
+        component: Needs,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/needs'
+          }
+        },
+      },
+      {
+        path: "profile",
+        name: "Profile",
+        component: Profile,
+        meta: {
+          breadCrumbs: {
+            to: '/dashboard/profile'
+          }
+        },
+      }
+    ]
   },
   {
     path: "/signin",
     name: "Signin",
-    component: Signin,
-  },
-  {
-    path: "/signup",
-    name: "Signup",
-    component: Signup,
+    component: Signin
   },
   {
     path: "/logout",
     name: "Logout",
-    component: Logout,
+    component: Logout
   },
 ];
 

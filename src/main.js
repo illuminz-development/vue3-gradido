@@ -9,7 +9,7 @@ import setupInterceptors from './services/setupInterceptors';
 import VueGoogleMaps from '@fawmi/vue-google-maps';
 import VueSimpleAlert from "vue3-simple-alert-next";
 
-setupInterceptors();
+setupInterceptors(router);
 
 const appInstance = createApp(App);
 appInstance.use(store);

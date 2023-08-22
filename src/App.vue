@@ -8,7 +8,7 @@
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <!-- nav -->
     <navbar :class="[navClasses]" :textWhite="this.$store.state.isAbsolute ? 'text-white opacity-8' : 'text-white'
-      " :minNav="navbarMinimize" v-if="this.$store.state.showNavbar" />
+      " :minNav="navbarMinimize" />
     <router-view />
   </main>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   created() {
     this.$store.state.hideConfigButton = true;
-    this.$store.state.showNavbar = false;
+    this.$store.state.showNavbar = true;
     this.$store.state.showSidenav = true;
     this.$store.state.showFooter = false;
   },

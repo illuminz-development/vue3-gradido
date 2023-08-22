@@ -34,6 +34,7 @@
     "vue": "3.2.0",
     "vue-flatpickr-component": "9.0.5",
     "vue-router": "4.0.14",
+    "vue-skeletor": "^1.0.6",
     "vue3-simple-alert-next": "^1.0.2",
     "vuex": "4.0.2",
     "yup": "^1.2.0"

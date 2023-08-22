@@ -32035,4 +32035,26 @@ svg.leaflet-image-layer.leaflet-interactive path {
 span.form-input-error {
   font-size: 12px;
   color: red;
+}
+
+.navbar-vertical .navbar-nav > .nav-item .nav-link.active {
+  color: inherit;
+  background-color: inherit;
+}
+
+.navbar-vertical .navbar-nav .nav-link.active {
+  font-weight: inherit;
+  box-shadow: inherit;
+  border-radius: inherit;
+}
+
+.navbar-vertical .navbar-nav > .nav-item .nav-link.router-link-exact-active {
+  color: #344767;
+  background-color: rgba(255, 255, 255, 0.13);
+}
+
+.navbar-vertical .navbar-nav .nav-link.router-link-exact-active {
+  font-weight: 600;
+  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+  border-radius: 0.5rem;
 }/*# sourceMappingURL=argon-dashboard.css.map */

@@ -97,7 +97,7 @@ export default {
             this.v$.$validate() // checks all inputs
             if (!this.v$.$error && this.address.length > 0) {
                 CommunityService.add({ communityUuid: `${this.communityUuid}`, name: this.name, radius: this.radius, description: this.description, location: this.location, address: this.address }).then(() => {
-                    this.$router.push('/communities');
+                    this.$router.push('/dashboard/communities');
                 })
             }
         }

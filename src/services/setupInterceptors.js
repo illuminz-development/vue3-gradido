@@ -1,11 +1,10 @@
 import axiosInstance from "./api";
 import TokenService from "./token.service";
 
-const setup = () => {
+const setup = (router) => {
   axiosInstance.interceptors.request.use(
     (config) => {
       const token = TokenService.getLocalAccessToken();
-      console.log('tokentokentokentoken', token)
       if (token) {
         config.headers["Authorization"] = token; 
       }
@@ -21,6 +20,12 @@ const setup = () => {
       return res;
     },
     async (err) => {
+      // Unauthorized request
+      if(err.response.status == '401'){
+        TokenService.removeUser();
+        router.push('/signin')
+      }
+
       return Promise.reject(err);
     }
   );

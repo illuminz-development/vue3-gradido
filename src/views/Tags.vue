@@ -1,6 +1,6 @@
 <template>
     <div class="py-4 container-fluid">
-        <div class="mt-4 row">
+        <div class="mt-0 row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
@@ -13,14 +13,14 @@
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag
                                         </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-if="list.length === 0">
+                                    <TableSkeleton v-if="list === null" rows=10 cols=1 />
+                                    <tr v-else-if="list.length === 0">
                                         <td align="center">No record found.</td>
                                     </tr>
-                                    <tr v-for="item in list" :key="item">
+                                    <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
@@ -41,18 +41,20 @@
   
 <script>
 import TagService from '../services/tag.service';
+import TableSkeleton from './components/TableSkeleton.vue';
 
 export default {
     name: "tags-list",
+    components: { TableSkeleton },
     data() {
         return {
-            list: [],
-            filters: {}
+            list: null
         }
     },
     methods: {
-        fetch() {
-            TagService.list(this.filters).then(response => {
+        fetch(filters = {}) {
+            this.list = null
+            TagService.list(filters).then(response => {
                 console.log('response', response)
                 this.list = response.data.responseData.data;
             })

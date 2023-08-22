@@ -2,23 +2,21 @@
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-item url="/dashboard" :class="getRoute() === 'dashboard' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'">
+        <sidenav-item url="/dashboard" :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'">
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/communities" :class="getRoute() === 'communities' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Communities'">
+        <sidenav-item url="/dashboard/communities" :navText="this.$store.state.isRTL ? 'الجداول' : 'Communities'">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/community/users" :class="getRoute() === 'community/users' ? 'active' : ''"
+        <sidenav-item url="/dashboard/communities/users"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Community Users'">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
@@ -26,37 +24,34 @@
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/categories" :class="getRoute() === 'categories' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Categories'">
-          <template v-slot:icon>
-            <i class="ni ni-collection text-warning text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item url="/tags" :class="getRoute() === 'tags' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Tags'">
-          <template v-slot:icon>
-            <i class="ni ni-tag text-warning text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item url="/offers" :class="getRoute() === 'offers' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Offers'">
+        <sidenav-item url="/dashboard/offers" :navText="this.$store.state.isRTL ? 'الجداول' : 'Offers'">
           <template v-slot:icon>
             <i class="ni ni-diamond text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/needs" :class="getRoute() === 'needs' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Needs'">
+        <sidenav-item url="/dashboard/needs" :navText="this.$store.state.isRTL ? 'الجداول' : 'Needs'">
           <template v-slot:icon>
             <i class="ni ni-umbrella-13 text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item">
+        <sidenav-item url="/dashboard/categories" :navText="this.$store.state.isRTL ? 'الجداول' : 'Categories'">
+          <template v-slot:icon>
+            <i class="ni ni-collection text-warning text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="nav-item">
+        <sidenav-item url="/dashboard/tags" :navText="this.$store.state.isRTL ? 'الجداول' : 'Tags'">
+          <template v-slot:icon>
+            <i class="ni ni-tag text-warning text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+
       <!-- <li class="nav-item">
         <sidenav-item url="/tables" :class="getRoute() === 'tables' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'">
@@ -99,16 +94,14 @@
         </h6>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/profile" :class="getRoute() === 'profile' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
+        <sidenav-item url="/dashboard/profile" :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
           <template v-slot:icon>
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/logout" :class="getRoute() === 'logout' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Logout'">
+        <sidenav-item url="/logout" :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Logout'">
           <template v-slot:icon>
             <i class="ni ni-button-power text-dark text-sm opacity-10"></i>
           </template>
@@ -150,12 +143,6 @@ export default {
   },
   components: {
     SidenavItem
-  },
-  methods: {
-    getRoute() {
-      const routeArr = this.$route.path.split("/");
-      return routeArr[1];
-    }
   }
 };
 </script>

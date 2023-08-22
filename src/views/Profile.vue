@@ -82,7 +82,7 @@ export default {
   components: { ArgonInput, ArgonButton },
 
   mounted() {
-    this.$store.state.isAbsolute = true;
+    //this.$store.state.isAbsolute = true;
     setNavPills();
     setTooltip();
   }

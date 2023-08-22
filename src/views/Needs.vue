@@ -1,6 +1,6 @@
 <template>
     <div class="py-4 container-fluid">
-        <div class="mt-4 row">
+        <div class="mt-0 row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
@@ -33,10 +33,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-if="list.length === 0">
-                                        <td align="center" colspan="5">No record found.</td>
+                                    <TableSkeleton v-if="list === null" rows=3 cols=4 />
+                                    <tr v-else-if="list.length === 0">
+                                        <td align="center" colspan="4">No record found.</td>
                                     </tr>
-                                    <tr v-for="item in list" :key="item">
+                                    <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
@@ -74,19 +75,22 @@
 import NeedService from '../services/need.service';
 import Filters from './components/Filters.vue';
 import moment from 'moment';
+import TableSkeleton from './components/TableSkeleton.vue';
 
 export default {
     name: "needs-list",
     components: {
-        Filters
+        Filters,
+        TableSkeleton
     },
     data() {
         return {
-            list: []
+            list: null
         }
     },
     methods: {
         fetch(filters = {}) {
+            this.list = null;
             NeedService.list(filters).then(response => {
                 console.log('response', response)
                 this.list = response.data.responseData.data;
