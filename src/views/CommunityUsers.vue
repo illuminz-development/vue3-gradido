@@ -14,6 +14,8 @@
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UUID
+                                        </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -35,11 +37,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=3 cols=6 />
+                                    <TableSkeleton v-if="list === null" rows=3 cols=7 />
                                     <tr v-else-if="list.length === 0">
-                                        <td align="center" colspan="6">No record found.</td>
+                                        <td align="center" colspan="7">No record found.</td>
                                     </tr>
                                     <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{ item.communityUuid }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">

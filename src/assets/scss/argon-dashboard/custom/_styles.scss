@@ -24,3 +24,7 @@ span.form-input-error {
     box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
     border-radius: 0.5rem;
 }
+
+.navbar-vertical.navbar-expand-xs {
+    z-index: 999 !important;
+}

@@ -15,6 +15,8 @@
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">UUID
+                                        </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name
                                         </th>
                                         <th
@@ -28,20 +30,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=3 cols=4 />
+                                    <TableSkeleton v-if="list === null" rows=3 cols=5 />
                                     <tr v-else-if="list.length === 0">
-                                        <td align="center" colspan="4">No record found.</td>
+                                        <td align="center" colspan="5">No record found.</td>
                                     </tr>
                                     <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{ item.CommunityProfile.name }}</h6>
+                                                    <h6 class="mb-0 text-sm">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#detailModal"
+                                                            @click="e => showDetail(e, item)">{{ item.communityUuid
+                                                            }}</a>
+                                                    </h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.CommunityProfile.radius }}</p>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <p class="mb-0 text-sm">{{ item.CommunityProfile.name }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-sm mb-0">{{ item.CommunityProfile.radius }}</p>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
@@ -65,23 +78,35 @@
             </div>
         </div>
     </div>
+    <Modal :visible="openModal" title="Community Detail">
+        <CommunityDetail :data="detail" />
+    </Modal>
 </template>
   
 <script>
 import CommunityService from '../services/community.service';
 import ArgonButton from "@/components/ArgonButton.vue";
 import TableSkeleton from './components/TableSkeleton.vue';
+import Modal from './components/Modal.vue';
+import CommunityDetail from './CommunityDetail.vue';
 
 export default {
     name: "communities-list",
-    components: { ArgonButton, TableSkeleton },
+    components: { ArgonButton, TableSkeleton, Modal, CommunityDetail },
     data() {
         return {
             list: null,
+            openModal: false,
+            detail: {},
             filters: {}
         }
     },
     methods: {
+        showDetail(e, item) {
+            e.preventDefault();
+            this.openModal = Date.now();
+            this.detail = item;
+        },
         addNew() {
             this.$router.push('/dashboard/communities/add')
         },

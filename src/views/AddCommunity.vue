@@ -29,6 +29,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <label for="example-text-input" class="form-control-label">UUID</label>
+                                    <div class="form-group">
+                                        <input v-model="communityUuid" type="text" class="form-control"
+                                            name="communityUuid" />
+                                        <span class="form-input-error" v-if="v$.communityUuid.$error"> {{
+                                            v$.communityUuid.$errors[0].$message }} </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
                                     <label for="example-text-input" class="form-control-label">Description</label>
                                     <div class="form-group">
                                         <textarea v-model="description" class="form-control" name="radius"></textarea>
@@ -69,6 +78,7 @@ export default {
     validations() {
         return {
             name: { required: helpers.withMessage('Name is required', required) },
+            communityUuid: { required: helpers.withMessage('UUID is required', required) },
             radius: { required: helpers.withMessage('Radius is required', required) },
             description: { required: helpers.withMessage('Description is required', required) },
             address: { required: helpers.withMessage('Address is required', required) }
@@ -76,7 +86,7 @@ export default {
     },
     data() {
         return {
-            communityUuid: Date.now(),
+            communityUuid: '',
             name: '',
             radius: '',
             description: '',
