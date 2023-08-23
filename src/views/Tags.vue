@@ -57,6 +57,8 @@ export default {
             TagService.list(filters).then(response => {
                 console.log('response', response)
                 this.list = response.data.responseData.data;
+            }).catch(() => {
+                this.list = [];
             })
         }
     },

@@ -56,6 +56,8 @@ export default {
             this.list = null
             CategoryService.list(filters).then(response => {
                 this.list = response.data.responseData.data;
+            }).catch(() => {
+                this.list = [];
             })
         }
     },

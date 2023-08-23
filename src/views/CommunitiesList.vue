@@ -10,6 +10,7 @@
                                 New</argon-button>
                         </div>
                     </div>
+                    <filters :callback="fetch" :filters="{ uuid: '', name: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
@@ -89,16 +90,16 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import TableSkeleton from './components/TableSkeleton.vue';
 import Modal from './components/Modal.vue';
 import CommunityDetail from './CommunityDetail.vue';
+import Filters from './components/Filters.vue';
 
 export default {
     name: "communities-list",
-    components: { ArgonButton, TableSkeleton, Modal, CommunityDetail },
+    components: { ArgonButton, TableSkeleton, Modal, CommunityDetail, Filters },
     data() {
         return {
             list: null,
             openModal: false,
-            detail: {},
-            filters: {}
+            detail: {}
         }
     },
     methods: {
@@ -110,10 +111,12 @@ export default {
         addNew() {
             this.$router.push('/dashboard/communities/add')
         },
-        fetch() {
+        fetch(filters = {}) {
             this.list = null;
-            CommunityService.list(this.filters).then(response => {
+            CommunityService.list(filters).then(response => {
                 this.list = response.data.responseData.data;
+            }).catch(() => {
+                this.list = [];
             })
         },
         remove(id) {
@@ -131,9 +134,6 @@ export default {
                 console.log(e);
             });
         }
-    },
-    created() {
-        this.fetch();
-    },
+    }
 }
 </script>

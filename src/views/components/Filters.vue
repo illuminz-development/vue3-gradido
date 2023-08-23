@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <div>
                         <label>Community</label>
-                        <select v-model="filter.communityId" type="text" class="form-control form-select p-1" name="email"
+                        <select v-model="filter.communityId" type="text" class="form-control form-select p-1"
                             placeholder="Select Community">
                             <option value=""></option>
                             <option v-for="item in communitiesList" :key="item"
@@ -19,10 +19,34 @@
                 <div class="form-group">
                     <div>
                         <label>Category</label>
-                        <select v-model="filter.category" type="text" class="form-control form-select p-1" name="email"
+                        <select v-model="filter.category" type="text" class="form-control form-select p-1"
                             placeholder="Select Category">
                             <option></option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3" v-if="typeof filters.uuid != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>UUID</label>
+                        <input v-model="filter.uuid" type="text" class="form-control p-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-3" v-if="typeof filters.name != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Name</label>
+                        <input v-model="filter.name" type="text" class="form-control p-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-3" v-if="typeof filters.title != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Title</label>
+                        <input v-model="filter.title" type="text" class="form-control p-1" />
                     </div>
                 </div>
             </div>
@@ -88,9 +112,9 @@ export default {
     },
 
     created() {
+        typeof this.filter.communityId != 'undefined' && this.communities();
+        typeof this.filter.category != 'undefined' && this.categories();
         this.callback(this.clean(this.filter));
-        this.communities();
-        this.categories();
     }
 }
 </script>

@@ -8,7 +8,7 @@
                             <p class="mb-0">Community Users List</p>
                         </div>
                     </div>
-                    <filters :callback="fetch" :filters="{ communityId: '' }" />
+                    <filters :callback="fetch" :filters="{ communityId: '', name: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
@@ -106,6 +106,8 @@ export default {
             this.list = null
             CommunityUserService.list(filters).then(response => {
                 this.list = response.data.responseData.data;
+            }).catch(() => {
+                this.list = [];
             })
         }
     }
