@@ -49,9 +49,16 @@
                                 </div>
                                 <div class="col-md-12">
                                     <label for="example-text-input" class="form-control-label">Location</label>
-                                    <GMapAutocomplete v-model="address" :value="address" class="form-control"
+                                    <p class="text-sm">{{ address }}</p>
+                                    <MapboxMap :center="location" style="height: 400px"
+                                        access-token="pk.eyJ1IjoidmlrYXNpbG16IiwiYSI6ImNsbG03NzNkNTFwZXMzbHQ2bTV6NHA0ZjgifQ.knlN4jnVdmhDkJTaka5RoQ"
+                                        map-style="mapbox://styles/mapbox/streets-v11">
+                                        <MapboxMarker :lng-lat="location" />
+                                        <MapboxGeocoder types="locality,place,postcode,country" @mb-result="mbResult" />
+                                    </MapboxMap>
+                                    <!-- <GMapAutocomplete v-model="address" :value="address" class="form-control"
                                         placeholder="Type the location ..." @place_changed="setPlace">
-                                    </GMapAutocomplete>
+                                    </GMapAutocomplete> -->
                                     <span class="form-input-error" v-if="v$.address.$error"> {{
                                         v$.address.$errors[0].$message
                                     }} </span>
@@ -70,6 +77,9 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import useValidate from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import CommunityService from "../services/community.service";
+import { MapboxMap, MapboxGeocoder, MapboxMarker } from '@studiometa/vue-mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
 
 export default {
     name: "add-community",
@@ -82,7 +92,7 @@ export default {
             communityUuid: { required: helpers.withMessage('UUID is required', required) },
             radius: { required: helpers.withMessage('Radius is required', required) },
             description: { required: helpers.withMessage('Description is required', required) },
-            address: { required: helpers.withMessage('Address is required', required) }
+            address: { required: helpers.withMessage('Location is required', required) }
         }
     },
     data() {
@@ -92,11 +102,18 @@ export default {
             radius: '',
             description: '',
             address: '',
-            location: []
+            location: [0, 0]
         }
     },
-    components: { ArgonButton },
+    components: { ArgonButton, MapboxMap, MapboxGeocoder, MapboxMarker },
     methods: {
+        mbResult(data) {
+            console.log('mbResult', data);
+            this.address = data?.result?.place_name ?? '';
+            const lat = data.result.center[0];
+            const lng = data.result.center[1];
+            this.location = [lat, lng];
+        },
         fetch() {
             CommunityService.fetchById(this.$route.params.id).then(response => {
                 const { communityUuid, CommunityProfile } = response.data.responseData;
