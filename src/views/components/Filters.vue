@@ -50,6 +50,14 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3" v-if="typeof filters.radius != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Radius</label>
+                        <input v-model="filter.radius" type="text" class="form-control p-1" />
+                    </div>
+                </div>
+            </div>
             <div class="col-3">
                 <div class="form-group">
                     <div>

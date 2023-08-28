@@ -34,12 +34,15 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Community
                                         </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Playground
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=3 cols=7 />
+                                    <TableSkeleton v-if="list === null" rows=3 cols=8 />
                                     <tr v-else-if="list.length === 0">
-                                        <td align="center" colspan="7">No record found.</td>
+                                        <td align="center" colspan="8">No record found.</td>
                                     </tr>
                                     <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
                                         <td>
@@ -57,22 +60,27 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.email }}</p>
+                                            <p class="text-sm mb-0">{{ item.email }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.countryCode }}{{ item.mobile }}
+                                            <p class="text-sm mb-0">{{ item.countryCode }}{{ item.mobile }}
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.UserProfile.language }}</p>
+                                            <p class="text-sm mb-0">{{ item.UserProfile.language }}</p>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{
+                                            <span class="text-xs">{{
                                                 item.UserProfile.address }}</span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{
+                                            <span class="text-xs">{{
                                                 item.UserAccounts?.[0]?.name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold"><a target="_blank"
+                                                    href="/playground?coords=-122.123877,47.669414"
+                                                    class="nav-link">Playground</a></span>
                                         </td>
                                     </tr>
                                 </tbody>
