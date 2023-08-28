@@ -79,7 +79,7 @@
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold"><a target="_blank"
-                                                    href="/playground?coords=-122.123877,47.669414"
+                                                    :href="`/playground?coords=${JSON.stringify(item.UserProfile.location.coordinates)}`"
                                                     class="nav-link">Playground</a></span>
                                         </td>
                                     </tr>

@@ -54,7 +54,7 @@
                                         </td> -->
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
-                                                item.CommunityProfile.name }}</span>
+                                                item.CommunityProfile?.name }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{

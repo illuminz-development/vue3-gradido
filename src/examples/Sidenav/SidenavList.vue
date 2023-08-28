@@ -2,50 +2,49 @@
   <div class="collapse navbar-collapse w-auto h-auto h-100" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <sidenav-item url="/dashboard" :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'">
+        <sidenav-item url="/dashboard" navText="Dashboard">
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/communities" :navText="this.$store.state.isRTL ? 'الجداول' : 'Communities'">
+        <sidenav-item url="/dashboard/communities" navText="Communities">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/communities/users"
-          :navText="this.$store.state.isRTL ? 'الجداول' : 'Community Users'">
+        <sidenav-item url="/dashboard/communities/users" navText="Community Users">
           <template v-slot:icon>
             <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/offers" :navText="this.$store.state.isRTL ? 'الجداول' : 'Offers'">
+        <sidenav-item url="/dashboard/offers" navText="Offers">
           <template v-slot:icon>
             <i class="ni ni-diamond text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/needs" :navText="this.$store.state.isRTL ? 'الجداول' : 'Needs'">
+        <sidenav-item url="/dashboard/needs" navText="Needs">
           <template v-slot:icon>
             <i class="ni ni-umbrella-13 text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/categories" :navText="this.$store.state.isRTL ? 'الجداول' : 'Categories'">
+        <sidenav-item url="/dashboard/categories" navText="Categories">
           <template v-slot:icon>
             <i class="ni ni-collection text-warning text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/tags" :navText="this.$store.state.isRTL ? 'الجداول' : 'Tags'">
+        <sidenav-item url="/dashboard/tags" navText="Tags">
           <template v-slot:icon>
             <i class="ni ni-tag text-warning text-sm opacity-10"></i>
           </template>
@@ -84,24 +83,19 @@
         </sidenav-item>
       </li> -->
       <li class="mt-3 nav-item">
-        <h6 v-if="this.$store.state.isRTL" class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'">
-          صفحات المرافق
-        </h6>
-        <h6 v-else class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="this.$store.state.isRTL ? 'me-4' : 'ms-2'">
+        <h6 class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6 ms-2">
           ACCOUNT PAGES
         </h6>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/dashboard/profile" :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'">
+        <sidenav-item url="/dashboard/profile" navText="Profile">
           <template v-slot:icon>
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
       <li class="nav-item">
-        <sidenav-item url="/logout" :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Logout'">
+        <sidenav-item url="/logout" navText="Logout">
           <template v-slot:icon>
             <i class="ni ni-button-power text-dark text-sm opacity-10"></i>
           </template>
@@ -136,8 +130,8 @@ export default {
   },
   data() {
     return {
-      title: "Argon Dashboard 2",
-      controls: "dashboardsExamples",
+      title: "Gradido Admin Panel",
+      controls: "dashboard",
       isActive: "active"
     };
   },
