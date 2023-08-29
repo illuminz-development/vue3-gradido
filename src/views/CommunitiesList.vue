@@ -40,7 +40,8 @@
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
                                                     <h6 class="mb-0 text-sm">
-                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#detailModal"
+                                                        <a href="#" class="link-primary" data-bs-toggle="modal"
+                                                            data-bs-target="#detailModal"
                                                             @click="e => showDetail(e, item)">{{ item.communityUuid
                                                             }}</a>
                                                     </h6>
@@ -58,7 +59,7 @@
                                             <p class="text-sm mb-0">{{ item.CommunityProfile.radius }}</p>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{
+                                            <span class="text-xs">{{
                                                 item.CommunityProfile.address }}</span>
                                         </td>
                                         <td class="align-middle">
