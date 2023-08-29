@@ -1,8 +1,21 @@
 <template>
-    <div v-if="Object.keys(data).length > 0">
-        <div v-for="key of Object.keys(data)" class="row" :key="key">
+    <div class="row">
+        <h6>Person</h6>
+        <dl class="row">
+            <dt class="col-sm-4 text-sm mb-2">Name</dt>
+            <dd class="col-sm-8 text-sm mb-2">
+                <p class="text-sm mb-0">{{ data?.user?.name }}</p>
+            </dd>
+            <dt class="col-sm-4 text-sm mb-2">Address</dt>
+            <dd class="col-sm-8 text-sm mb-2">
+                <p class="text-sm mb-0">{{ data?.user?.address }}</p>
+            </dd>
+        </dl>
+    </div>
+    <div v-if="Object.keys(data?.offerNeeds).length > 0">
+        <div v-for="key of Object.keys(data.offerNeeds)" class="row" :key="key">
             <h6>{{ key == '1' ? 'Offers' : 'Needs' }}</h6>
-            <dl v-for="item in data[key]" class="row" :key="item">
+            <dl v-for="item in data.offerNeeds[key]" class="row" :key="item">
                 <dt class="col-sm-4 text-sm mb-2">Title</dt>
                 <dd class="col-sm-8 text-sm mb-2">
                     <p class="text-sm mb-0">{{ item?.title }}</p>
@@ -15,7 +28,7 @@
 
                 <dt class="col-sm-4 text-sm mb-2">Community</dt>
                 <dd class="col-sm-8 text-sm mb-2">
-                    <p class="text-sm mb-0">{{ community }}</p>
+                    <p class="text-sm mb-0">{{ data?.community }}</p>
                 </dd>
 
                 <dt class="col-sm-4 text-sm mb-2">Created At</dt>
@@ -38,9 +51,6 @@ export default {
     props: {
         data: {
             type: Object
-        },
-        community: {
-            type: String
         }
     },
     methods: {

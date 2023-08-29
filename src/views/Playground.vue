@@ -22,7 +22,7 @@
                         <h6>Detail</h6>
                     </div>
                     <div class="card-body  max-height-vh-80 mb-4 overflow-auto pb-2">
-                        <OfferNeedDetails :community="community" :data="offerNeedDetail" />
+                        <OfferNeedDetails :data="offerNeedDetail" />
                     </div>
                 </div>
             </div>
@@ -47,7 +47,6 @@ export default {
             coords: null,
             radius: 15,
             map: null,
-            community: null,
             offerNeedDetail: null,
             nearByUsers: []
         }
@@ -67,6 +66,10 @@ export default {
             })
         },
         drawMap() {
+            if (this.map !== null) {
+                this.map.remove();
+            }
+
             mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_KEY;
             this.map = new mapboxgl.Map({
                 container: this.$refs.mapContainer,
@@ -83,18 +86,14 @@ export default {
 
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
                     marker.getElement().dataset.community = JSON.stringify(nu.UserAccounts?.[0]?.name ?? 'Unknown');
-                    marker.getElement().dataset.location = JSON.stringify(nu.UserProfile.location.coordinates);
+                    marker.getElement().dataset.user = JSON.stringify(nu.UserProfile);
                     marker.getElement().addEventListener('click', function () {
                         const detail = JSON.parse(this.dataset.detail);
+                        const user = JSON.parse(this.dataset.user);
                         const community = JSON.parse(this.dataset.community);
+                        $this.offerNeedDetail = { community, user, offerNeeds: {} };
                         if (detail.length > 0) {
-                            $this.offerNeedDetail = _.groupBy(detail, key => key.type);
-                            $this.community = community;
-                        } else {
-                            //if ($this.offerNeedDetail.length > 0) {
-                            $this.offerNeedDetail = {}
-                            $this.community = null;
-                            //}
+                            $this.offerNeedDetail = { ...$this.offerNeedDetail, offerNeeds: _.groupBy(detail, key => key.type) };
                         }
                     });
                 })
