@@ -113,7 +113,6 @@ export default {
             return obj
         },
         applyFilter() {
-            console.log('this.filter', this.filter)
             this.$router.replace({ query: { ...this.filter } })
             this.callback(this.clean(this.filter));
         }

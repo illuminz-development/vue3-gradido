@@ -63,54 +63,56 @@ export default {
                 this.radius = rad;
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
+                this.drawMap();
             })
+        },
+        drawMap() {
+            mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_KEY;
+            this.map = new mapboxgl.Map({
+                container: this.$refs.mapContainer,
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [this.coords[1], this.coords[0]],
+                zoom: 8,
+            });
+
+            // Add nearby users markers to the map
+            if (this.nearByUsers.length > 0) {
+                this.nearByUsers.map(nu => {
+                    const $this = this;
+                    let marker = new mapboxgl.Marker({ color: '#FF0000' }).setLngLat([nu.UserProfile.location.coordinates[1], nu.UserProfile.location.coordinates[0]]).addTo(this.map);
+
+                    marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
+                    marker.getElement().dataset.community = JSON.stringify(nu.UserAccounts?.[0]?.name ?? 'Unknown');
+                    marker.getElement().dataset.location = JSON.stringify(nu.UserProfile.location.coordinates);
+                    marker.getElement().addEventListener('click', function () {
+                        const detail = JSON.parse(this.dataset.detail);
+                        const community = JSON.parse(this.dataset.community);
+                        if (detail.length > 0) {
+                            $this.offerNeedDetail = _.groupBy(detail, key => key.type);
+                            $this.community = community;
+                        } else {
+                            //if ($this.offerNeedDetail.length > 0) {
+                            $this.offerNeedDetail = {}
+                            $this.community = null;
+                            //}
+                        }
+                    });
+                })
+            }
+            // Add markers to the map
+            new mapboxgl.Marker().setLngLat([this.coords[1], this.coords[0]]).addTo(this.map);
+            // Draw a circle with given radius
+            new MapboxCircle({ lat: this.coords[0], lng: this.coords[1] }, this.radius * 1609.34, {
+                editable: false,
+                fillColor: '#29AB87'
+            }).addTo(this.map);
         }
     },
     created() {
         this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
     },
     updated() {
-        mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_KEY;
-        this.map = new mapboxgl.Map({
-            container: this.$refs.mapContainer,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [this.coords[1], this.coords[0]],
-            zoom: 8,
-        });
-
-        // Add nearby users markers to the map
-        if (this.nearByUsers.length > 0) {
-            this.nearByUsers.map(nu => {
-                const $this = this;
-                let marker = new mapboxgl.Marker({ color: '#FF0000' }).setLngLat([nu.UserProfile.location.coordinates[1], nu.UserProfile.location.coordinates[0]]).addTo(this.map);
-
-                marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
-                marker.getElement().dataset.community = JSON.stringify(nu.UserAccounts?.[0]?.name ?? 'Unknown');
-                marker.getElement().dataset.location = JSON.stringify(nu.UserProfile.location.coordinates);
-                marker.getElement().addEventListener('click', function () {
-                    const detail = JSON.parse(this.dataset.detail);
-                    const community = JSON.parse(this.dataset.community);
-                    console.log(JSON.parse(this.dataset.location))
-                    if (detail.length > 0) {
-                        $this.offerNeedDetail = _.groupBy(detail, key => key.type);
-                        console.log('$this.offerNeedDetail', $this.offerNeedDetail)
-                        $this.community = community;
-                    } else {
-                        if ($this.offerNeedDetail.length > 0) {
-                            $this.offerNeedDetail = null
-                            $this.community = null;
-                        }
-                    }
-                });
-            })
-        }
-        // Add markers to the map
-        new mapboxgl.Marker().setLngLat([this.coords[1], this.coords[0]]).addTo(this.map);
-        // Draw a circle with given radius
-        new MapboxCircle({ lat: this.coords[0], lng: this.coords[1] }, this.radius * 1609.34, {
-            editable: false,
-            fillColor: '#29AB87'
-        }).addTo(this.map);
+        //this.drawMap();
     },
     beforeUnmount() {
         this.map.remove();
