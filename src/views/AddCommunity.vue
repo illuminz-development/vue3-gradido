@@ -107,8 +107,8 @@ export default {
         mbResult(data) {
             console.log('mbResult', data);
             this.address = data?.result?.place_name ?? '';
-            const lat = data.result.center[0];
-            const lng = data.result.center[1];
+            const lat = data.result.center[1];
+            const lng = data.result.center[0];
             this.location = [lat, lng];
         },
         setPlace(data) {
