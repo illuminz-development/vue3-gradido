@@ -17,7 +17,7 @@
 
         <dt class="col-sm-3 text-sm mb-2">Radius</dt>
         <dd class="col-sm-9 text-sm mb-2">
-            <p class="text-sm">{{ data?.CommunityProfile?.radius }} Miles</p>
+            <p class="text-sm">{{ data?.CommunityProfile?.radius }} KM</p>
         </dd>
 
         <dt class="col-sm-3 text-sm mb-2">API Key</dt>

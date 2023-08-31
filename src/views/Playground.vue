@@ -6,7 +6,7 @@
                     <div class="card-header pb-0">
                         <h6>Playground</h6>
                     </div>
-                    <filters :callback="fetch" :filters="{ communityId: '', radius }" />
+                    <filters :callback="fetch" :filters="{ communityId: '', type: '0', radius }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="row">
                             <div class="col-md-12">
@@ -48,7 +48,9 @@ export default {
             radius: 15,
             map: null,
             offerNeedDetail: null,
-            nearByUsers: []
+            nearByUsers: [],
+            markerImg: '/person.png',
+            markerColor: 'black'
         }
     },
     methods: {
@@ -58,12 +60,42 @@ export default {
         fetch(filters = {}) {
             const rad = filters?.radius ?? 15;
             this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
-            CommunityUserService.fetchNearBy({ radius: rad, communityId: filters?.communityId, latitude: this.coords[0], longitude: this.coords[1] }).then(response => {
+            CommunityUserService.fetchNearBy({ type: filters?.type ?? 0, radius: rad, communityId: filters?.communityId, latitude: this.coords[1], longitude: this.coords[0] }).then(response => {
                 this.radius = rad;
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
-                this.drawMap();
+                //this.markerImg = filters?.type == '1' ? '/diamond.png' : (filters?.type == '2' ? '/umbrella.png' : 'person.png');
+                this.markerColor = filters?.type == '1' ? 'blue' : (filters?.type == '2' ? 'green' : 'black');
+                setTimeout(this.drawMap, 1);
             })
+        },
+        calculateZoomLevel() {
+            const radius = this.radius * 1000;
+            // Center coordinates of the area
+            const center = [this.coords[0], this.coords[1]]; // replace with actual coordinates
+
+            // Calculate the distance in degrees for the latitude based on the radius
+            const latDistance = (radius / 40008000) * 360;
+
+            // Calculate the distance in degrees for the longitude based on the radius
+            const lonDistance = (radius / (40008000 * Math.cos((Math.PI / 180) * center[1]))) * 360;
+
+            // Create the bounding box
+            const bounds = new mapboxgl.LngLatBounds(
+                [center[0] - lonDistance, center[1] - latDistance], // Southwest corner
+                [center[0] + lonDistance, center[1] + latDistance]  // Northeast corner
+            );
+
+            // Get the map's container dimensions
+            const mapContainer = this.map.getContainer();
+            const mapWidth = mapContainer.offsetWidth - 200;
+
+            // Calculate the zoom level based on the bounding box width
+            const zoomLevel = this.map.getZoom() - Math.log2(360 * mapWidth / (bounds.getEast() - bounds.getWest()));
+
+            // Set the calculated zoom level to your map
+            console.log('zoomLevel', zoomLevel, mapWidth, this.map.getZoom(), bounds.getEast(), bounds.getWest())
+            this.map.setZoom(Math.abs(zoomLevel));
         },
         drawMap() {
             if (this.map !== null) {
@@ -74,16 +106,20 @@ export default {
             this.map = new mapboxgl.Map({
                 container: this.$refs.mapContainer,
                 style: 'mapbox://styles/mapbox/streets-v11',
-                center: [this.coords[1], this.coords[0]],
-                zoom: 8,
+                center: [this.coords[0], this.coords[1]],
+                zoom: 10,
             });
 
             // Add nearby users markers to the map
             if (this.nearByUsers.length > 0) {
                 this.nearByUsers.map(nu => {
+                    const coords = nu.UserProfile.location.coordinates
+                    if (coords[1] == this.coords[1] && coords[0] == this.coords[0])
+                        return;
                     const $this = this;
-                    let marker = new mapboxgl.Marker({ color: '#FF0000' }).setLngLat([nu.UserProfile.location.coordinates[1], nu.UserProfile.location.coordinates[0]]).addTo(this.map);
-
+                    // const customMarkerElement = document.createElement('img');
+                    // customMarkerElement.src = this.markerImg;
+                    let marker = new mapboxgl.Marker({ color: this.markerColor }).setLngLat([coords[0], coords[1]]).addTo(this.map);
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
                     marker.getElement().dataset.community = JSON.stringify(nu.UserAccounts?.[0]?.name ?? 'Unknown');
                     marker.getElement().dataset.user = JSON.stringify(nu.UserProfile);
@@ -98,20 +134,19 @@ export default {
                     });
                 })
             }
-            // Add markers to the map
-            new mapboxgl.Marker().setLngLat([this.coords[1], this.coords[0]]).addTo(this.map);
+            // Add source marker to the map
+            new mapboxgl.Marker({ color: 'red' }).setLngLat([this.coords[0], this.coords[1]]).addTo(this.map);
             // Draw a circle with given radius
-            new MapboxCircle({ lat: this.coords[0], lng: this.coords[1] }, this.radius * 1609.34, {
+            new MapboxCircle({ lat: this.coords[1], lng: this.coords[0] }, this.radius * 1000, {
                 editable: false,
                 fillColor: '#29AB87'
             }).addTo(this.map);
+
+            this.calculateZoomLevel();
         }
     },
     created() {
         this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
-    },
-    updated() {
-        //this.drawMap();
     },
     beforeUnmount() {
         this.map.remove();

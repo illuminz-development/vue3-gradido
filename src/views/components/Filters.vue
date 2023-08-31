@@ -15,6 +15,19 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3" v-if="typeof filters.type != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Listing Type</label>
+                        <select v-model="filter.type" type="text" class="form-control form-select p-1"
+                            placeholder="Select type">
+                            <option value="0">All</option>
+                            <option value="1">Offer</option>
+                            <option value="2">Need</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="col-3" v-if="typeof filters.category != 'undefined'">
                 <div class="form-group">
                     <div>
@@ -53,7 +66,7 @@
             <div class="col-3" v-if="typeof filters.radius != 'undefined'">
                 <div class="form-group">
                     <div>
-                        <label>Radius (in miles)</label>
+                        <label>Radius (in KM)</label>
                         <input v-model="filter.radius" type="text" class="form-control p-1" />
                     </div>
                 </div>

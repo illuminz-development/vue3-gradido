@@ -109,13 +109,13 @@ export default {
             this.address = data?.result?.place_name ?? '';
             const lat = data.result.center[1];
             const lng = data.result.center[0];
-            this.location = [lat, lng];
+            this.location = [lng, lat];
         },
         setPlace(data) {
             this.address = data?.formatted_address ?? '';
             const lat = data.geometry.location.lat();
             const lng = data.geometry.location.lng();
-            this.location = [lat, lng];
+            this.location = [lng, lat];
         },
         submit(e) {
             e.preventDefault();
