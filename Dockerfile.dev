@@ -1,18 +1,22 @@
-# Fetching the latest node image on alpine linux
-FROM node:alpine AS development
+FROM node:lts-alpine
 
-# Declaring env
-ENV NODE_ENV development
+# install simple http server for serving static content
+RUN npm install -g http-server
 
-# Setting up the work directory
-WORKDIR /gradido-app
+# make the 'app' folder the current working directory
+WORKDIR /gradidoapp
 
-# Installing dependencies
-COPY ./package.json /gradido-app
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
 RUN npm install
 
-# Copying all the files in our project
+# copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-# Starting our application
-CMD npm start
+# build app for production with minification
+RUN npm run build
+
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
