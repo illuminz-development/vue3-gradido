@@ -21,7 +21,10 @@
                         <label>Category</label>
                         <select v-model="filter.category" type="text" class="form-control form-select p-1"
                             placeholder="Select Category">
-                            <option></option>
+                            <option value=""></option>
+                            <option v-for="item in categoriesList" :key="item"
+                                :value="item?.categoryUuid">{{
+                                    item?.name }}</option>
                         </select>
                     </div>
                 </div>

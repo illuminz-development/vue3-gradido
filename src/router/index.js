@@ -6,7 +6,11 @@ import CommunitiesList from '../views/CommunitiesList.vue';
 import CommunityUsers from '../views/CommunityUsers.vue';
 import AddCommunity from '../views/AddCommunity.vue';
 import EditCommunity from '../views/EditCommunity.vue';
+import CategoriesList from '../views/CategoriesList.vue';
 import Categories from '../views/Categories.vue';
+import EditCategory from '../views/EditCategory.vue';
+import TagsList from '../views/TagsList.vue';
+import EditTag from '../views/EditTag.vue';
 import Tags from '../views/Tags.vue';
 import Offers from '../views/Offers.vue';
 import Needs from '../views/Needs.vue';
@@ -94,23 +98,57 @@ const routes = [
       },
       {
         path: "categories",
-        name: "Categories",
-        component: Categories,
+        name: "CategoriesList",
+        component: CategoriesList,
         meta: {
           breadCrumbs: {
             to: '/dashboard/categories'
           }
         },
+        children: [
+          {
+            path: "",
+            name: "Categories",
+            component: Categories,
+            meta: {
+              breadCrumbs: {
+                to: '/dashboard/categories'
+              }
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditCategory",
+            component: EditCategory,
+          }
+        ]
       },
       {
         path: "tags",
-        name: "Tags",
-        component: Tags,
+        name: "TagsList",
+        component: TagsList,
         meta: {
           breadCrumbs: {
             to: '/dashboard/tags'
           }
         },
+        children: [
+          {
+            path: "",
+            name: "Tags",
+            component: Tags,
+            meta: {
+              breadCrumbs: {
+                to: '/dashboard/tags'
+              }
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditTag",
+            component: EditTag,
+          }
+        ]
       },
       {
         path: "offers",
