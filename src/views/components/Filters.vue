@@ -24,7 +24,7 @@
                             <option value=""></option>
                             <option v-for="item in categoriesList" :key="item"
                                 :value="item?.categoryUuid">{{
-                                    item?.name }}</option>
+                                    item?.CategoryContents[0]?.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -53,7 +53,36 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+
+            <div class="col-2" v-if="typeof filters.status != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Status</label>
+                        <select v-model="filter.status" type="text" class="form-control form-select p-1"
+                            placeholder="Select Status">
+                            <option value="">All</option>
+                            <option value="0">Pending</option>
+                            <option value="1">Accepted</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2" v-if="typeof filters.orderBy != 'undefined'">
+                <div class="form-group">
+                    <div>
+                        <label>Order By</label>
+                        <select v-model="filter.orderBy" type="text" class="form-control form-select p-1"
+                            placeholder="Select Ordering">
+                            <option value="date">Date</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-2">
                 <div class="form-group">
                     <div>
                         <label>&nbsp;</label>
@@ -95,7 +124,9 @@ export default {
             })
         },
         categories() {
-            categoryService.list().then(response => {
+            let filters = {};
+            filters = {...filters, allLanguage: 0}
+            categoryService.list(filters).then(response => {
                 this.categoriesList = response.data.responseData.data;
             })
         },

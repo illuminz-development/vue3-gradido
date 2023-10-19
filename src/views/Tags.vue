@@ -6,17 +6,20 @@
                     <div class="card-header pb-0">
                         <h6>Tags List</h6>
                     </div>
-                    <filters :callback="fetch" :filters="{ category: '', name: '' }" />
+                    <filters :callback="fetch" :filters="{ category: '', name: '', status: '', orderBy: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Name
+                                            Id
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            All languages
+                                            Uuid
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Name
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status
@@ -27,7 +30,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=10 cols=4 />
+                                    <TableSkeleton v-if="list === null" rows=10 cols=5 />
                                     <tr v-else-if="list.length === 0">
                                         <td align="center">No record found.</td>
                                     </tr>
@@ -35,7 +38,14 @@
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{ item.name }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ item?.id }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2">
+                                                <div class="my-auto">
+                                                    <h6 class="mb-0 text-sm">{{ item?.categoryUuid }}</h6>
                                                 </div>
                                             </div>
                                         </td>
@@ -44,7 +54,7 @@
                                             <div class="d-flex px-2" v-for="title in item?.CategoryContents" :key="title">
                                                 <div class="my-auto">
                                                     <h6 class="mb-0 text-sm">
-                                                        {{ title.name }} ({{title.languageName}})
+                                                        {{ title.name }} ({{title.Language.name}})
                                                     </h6>
                                                 </div>
                                             </div>

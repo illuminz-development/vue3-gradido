@@ -6,19 +6,21 @@
                     <div class="card-header pb-0">
                         <h6>Categories List</h6>
                     </div>
+                    <filters :callback="fetch" :filters="{ name: '', status: '', orderBy: '' }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center justify-content-center mb-0">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Id
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Uuid
                                         </th>
+                                        
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Name
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            All languages
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status
@@ -37,23 +39,24 @@
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{ item.categoryUuid }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ item.id }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{ item.name }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ item.categoryUuid }}</h6>
                                                 </div>
                                             </div>
                                         </td>
+                                        
 
                                         <td>
                                             <div class="d-flex px-2" v-for="title in item?.CategoryContents" :key="title">
                                                 <div class="my-auto">
                                                     <h6 class="mb-0 text-sm">
-                                                        {{ title.name }} ({{title.languageName}})
+                                                        {{ title.name }} ({{title.Language.name}})
                                                     </h6>
                                                 </div>
                                             </div>
@@ -102,10 +105,11 @@ import CategoryService from '../services/category.service';
 import TableSkeleton from './components/TableSkeleton.vue';
 import Modal from './components/Modal.vue';
 import RejectCategory from './RejectCategory.vue';
+import Filters from './components/Filters.vue';
 
 export default {
     name: "categories-list",
-    components: { TableSkeleton, Modal, RejectCategory },
+    components: { TableSkeleton, Modal, RejectCategory, Filters },
     data() {
         return {
             list: null,
@@ -120,6 +124,7 @@ export default {
             this.detail = item;
         },
         fetch(filters) {
+            filters = {...filters, allLanguage: 1}
             this.list = null
             CategoryService.list(filters).then(response => {
                 this.list = response.data.responseData.data;
@@ -143,7 +148,6 @@ export default {
                 console.log(e);
             });
         }
-
 
     },
 

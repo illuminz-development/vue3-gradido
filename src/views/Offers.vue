@@ -13,6 +13,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Uuid
+                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Title
                                         </th>
                                         <th
@@ -26,6 +29,9 @@
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Community
                                         </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            User
+                                        </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Created At
@@ -33,11 +39,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=3 cols=4 />
+                                    <TableSkeleton v-if="list === null" rows=3 cols=6 />
                                     <tr v-else-if="list.length === 0">
                                         <td align="center" colspan="4">No record found.</td>
                                     </tr>
                                     <tr v-else-if="list.length > 0" v-for="item in list" :key="item">
+                                        <td>
+                                            <p class="text-sm font-weight-bold mb-0">{{ item.uuid }}</p>
+                                        </td>
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
@@ -55,6 +64,10 @@
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
                                                 item.CommunityProfile.name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs font-weight-bold">{{
+                                                item.User.UserProfile.name }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{

@@ -2,7 +2,7 @@ import api from './api';
 
 class CategoryService {
   list(params = {}) {
-    return api.get('/category/list', {params: {type: 'tags', allLanguage: 1, ...params}});
+    return api.get('/category/list', {params: {type: 'tags', ...params}});
   }
 
   manageStatus(data) {
