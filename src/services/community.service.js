@@ -20,6 +20,10 @@ class CommunityService {
   remove(id) {
     return api.delete(`/community/${id}`);
   }
+
+  fetchNearBy(params = {}) {
+    return api.get('/nearby-community', {params});
+  }
 }
 
 export default new CommunityService();

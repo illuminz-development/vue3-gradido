@@ -55,23 +55,22 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{ item.description }}</p>
+                                            <p class="text-sm mb-0">{{ item.description }}</p>
                                         </td>
                                         <!-- <td>
                                             <span class="text-xs font-weight-bold">{{
                                                 item.category }}</span>
                                         </td> -->
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{
-                                                item.CommunityProfile.name }}</span>
+                                            <span class="text-sm">{{
+                                                item.CommunityProfile?.name }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
                                                 item.User.UserProfile.name }}</span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{
-                                                formattedDate(item.createdAt) }}</span>
+                                            <span class="text-xs font-weight-bold">formattedDate(item.createdAt) }}</span>
                                         </td>
                                     </tr>
                                 </tbody>

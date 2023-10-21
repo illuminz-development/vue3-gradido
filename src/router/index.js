@@ -17,6 +17,8 @@ import Needs from '../views/Needs.vue';
 import Profile from "../views/Profile.vue";
 import Signin from "../views/Signin.vue";
 import Logout from '../views/Logout.vue';
+import Playground from '../views/Playground.vue';
+import PlaygroundCommunity from '../views/PlaygroundCommunity.vue';
 
 const routes = [
   {
@@ -192,6 +194,16 @@ const routes = [
     name: "Logout",
     component: Logout
   },
+  {
+    path: "/playground",
+    name: "Playground",
+    component: Playground
+  },
+  {
+    path: "/playground-community",
+    name: "PlaygroundCommunity",
+    component: PlaygroundCommunity
+  }
 ];
 
 const router = createRouter({
