@@ -50,8 +50,7 @@
                                 <div class="col-md-12">
                                     <label for="example-text-input" class="form-control-label">Location</label>
                                     <p class="text-sm">{{ address }}</p>
-                                    <MapboxMap :center="location" style="height: 400px"
-                                        access-token="pk.eyJ1IjoidmlrYXNpbG16IiwiYSI6ImNsbG03NzNkNTFwZXMzbHQ2bTV6NHA0ZjgifQ.knlN4jnVdmhDkJTaka5RoQ"
+                                    <MapboxMap :center="location" style="height: 400px" :access-token="accessToken"
                                         map-style="mapbox://styles/mapbox/streets-v11">
                                         <MapboxMarker :lng-lat="location" />
                                         <MapboxGeocoder types="locality,place,postcode,country" @mb-result="mbResult" />
@@ -102,7 +101,8 @@ export default {
             radius: '',
             description: '',
             address: '',
-            location: [0, 0]
+            location: [0, 0],
+            accessToken: process.env.VUE_APP_MAPBOX_KEY
         }
     },
     components: { ArgonButton, MapboxMap, MapboxGeocoder, MapboxMarker },
@@ -110,9 +110,9 @@ export default {
         mbResult(data) {
             console.log('mbResult', data);
             this.address = data?.result?.place_name ?? '';
-            const lat = data.result.center[0];
-            const lng = data.result.center[1];
-            this.location = [lat, lng];
+            const lat = data.result.center[1];
+            const lng = data.result.center[0];
+            this.location = [lng, lat];
         },
         fetch() {
             CommunityService.fetchById(this.$route.params.id).then(response => {
@@ -129,7 +129,7 @@ export default {
             this.address = data?.formatted_address ?? '';
             const lat = data.geometry.location.lat();
             const lng = data.geometry.location.lng();
-            this.location = [lat, lng];
+            this.location = [lng, lat];
         },
         submit(e) {
             e.preventDefault();

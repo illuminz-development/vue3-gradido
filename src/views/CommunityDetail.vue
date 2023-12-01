@@ -17,13 +17,13 @@
 
         <dt class="col-sm-3 text-sm mb-2">Radius</dt>
         <dd class="col-sm-9 text-sm mb-2">
-            <p class="text-sm">{{ data?.CommunityProfile?.radius }} Miles</p>
+            <p class="text-sm">{{ data?.CommunityProfile?.radius }} KM</p>
         </dd>
 
         <dt class="col-sm-3 text-sm mb-2">API Key</dt>
         <dd class="col-sm-9 mb-2" style="word-break: break-word;">
             <p class="text-sm" v-if="displayKey">{{ data?.CommunityProfile?.api_key }}</p>
-            <p class="text-sm" v-else>************ <a href="#" @click="showKey">show</a></p>
+            <p class="text-sm" v-else>************ <a class="link-primary" href="#" @click="showKey">show</a></p>
         </dd>
     </dl>
 </template>
