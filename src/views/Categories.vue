@@ -94,6 +94,7 @@
                 </div>
             </div>
         </div>
+        <paginate :page-count="pageCount" :click-handler="clickCallback" :prev-text="'Prev'" :next-text="'Next'" ></paginate>
     </div>
     <Modal :visible="openModal" title="Reject Category">
         <RejectCategory :info="detail" />
@@ -106,15 +107,19 @@ import TableSkeleton from './components/TableSkeleton.vue';
 import Modal from './components/Modal.vue';
 import RejectCategory from './RejectCategory.vue';
 import Filters from './components/Filters.vue';
+import Paginate from "vuejs-paginate-next";
 
 export default {
     name: "categories-list",
-    components: { TableSkeleton, Modal, RejectCategory, Filters },
+    components: { TableSkeleton, Modal, RejectCategory, Filters, Paginate },
     data() {
         return {
             list: null,
             openModal: false,
-            detail: {}
+            detail: {},
+            currentPage: 1,
+            itemsPerPage: 20,
+            totalItems: null,
         }
     },
     methods: {
@@ -126,13 +131,19 @@ export default {
         fetch(filters) {
             filters = {...filters, allLanguage: 1}
             this.list = null
-            CategoryService.list(filters).then(response => {
+            CategoryService.list({...filters, perPage:20, page: this.currentPage}).then(response => {
                 this.list = response.data.responseData.data;
+                this.currentPage = response.data.responseData.page;
+                this.itemsPerPage = response.data.responseData.perPage;
+                this.pageCount = response.data.responseData.totalPages;
             }).catch(() => {
                 this.list = [];
             })
         },
-
+        clickCallback (pageNum){
+            this.currentPage = pageNum;
+            this.fetch();
+        },
         manageStatus(uuid, status) {
             this.$confirm("Are you sure to accept this?", '', 'Confirm', {
                 customClass: {

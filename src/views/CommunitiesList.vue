@@ -88,6 +88,7 @@
                 </div>
             </div>
         </div>
+        <paginate :page-count="pageCount" :click-handler="clickCallback" :prev-text="'Prev'" :next-text="'Next'" ></paginate>
     </div>
     <Modal :visible="openModal" title="Community Detail">
         <CommunityDetail :data="detail" />
@@ -101,17 +102,23 @@ import TableSkeleton from './components/TableSkeleton.vue';
 import Modal from './components/Modal.vue';
 import CommunityDetail from './CommunityDetail.vue';
 import Filters from './components/Filters.vue';
+import Paginate from "vuejs-paginate-next";
+
 
 export default {
     name: "communities-list",
-    components: { ArgonButton, TableSkeleton, Modal, CommunityDetail, Filters },
+    components: { ArgonButton, TableSkeleton, Modal, CommunityDetail, Filters, Paginate },
     data() {
         return {
             list: null,
             openModal: false,
-            detail: {}
+            detail: {},
+            currentPage: 1,
+            itemsPerPage: 20,
+            totalItems: null,
         }
     },
+
     methods: {
         showDetail(e, item) {
             e.preventDefault();
@@ -121,10 +128,19 @@ export default {
         addNew() {
             this.$router.push('/dashboard/communities/add')
         },
+
+        clickCallback (pageNum){
+            this.currentPage = pageNum;
+            this.fetch();
+        },
+
         fetch(filters = {}) {
             this.list = null;
-            CommunityService.list(filters).then(response => {
+            CommunityService.list({...filters, perPage:20, page: this.currentPage}).then(response => {
                 this.list = response.data.responseData.data;
+                this.currentPage = response.data.responseData.page;
+                this.itemsPerPage = response.data.responseData.perPage;
+                this.pageCount = response.data.responseData.totalPages;
             }).catch(() => {
                 this.list = [];
             })

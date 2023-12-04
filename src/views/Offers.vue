@@ -80,6 +80,7 @@
                 </div>
             </div>
         </div>
+        <paginate :page-count="pageCount" :click-handler="clickCallback" :prev-text="'Prev'" :next-text="'Next'" ></paginate>
     </div>
 </template>
   
@@ -88,23 +89,35 @@ import OfferService from '../services/offer.service';
 import Filters from './components/Filters.vue';
 import moment from 'moment';
 import TableSkeleton from './components/TableSkeleton.vue';
+import Paginate from "vuejs-paginate-next";
 
 export default {
     name: "offers-list",
     components: {
         Filters,
-        TableSkeleton
+        TableSkeleton,
+        Paginate
     },
     data() {
         return {
             list: null,
+            currentPage: 1,
+            itemsPerPage: 20,
+            totalItems: null,
         }
     },
     methods: {
+        clickCallback (pageNum){
+            this.currentPage = pageNum;
+            this.fetch();
+        },
         fetch(filters = {}) {
             this.list = null;
-            OfferService.list(filters).then(response => {
+            OfferService.list({...filters, perPage:20, page: this.currentPage}).then(response => {
                 this.list = response.data.responseData.data;
+                this.currentPage = response.data.responseData.page;
+                this.itemsPerPage = response.data.responseData.perPage;
+                this.pageCount = response.data.responseData.totalPages;
             }).catch(() => {
                 this.list = [];
             })
