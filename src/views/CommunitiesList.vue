@@ -29,12 +29,16 @@
                                         </th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Auth URL
+                                        </th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Playground</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <TableSkeleton v-if="list === null" rows=3 cols=6 />
+                                    <TableSkeleton v-if="list === null" rows=3 cols=7 />
                                     <tr v-else-if="list.length === 0">
                                         <td align="center" colspan="6">No record found.</td>
                                     </tr>
@@ -54,20 +58,24 @@
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div class="my-auto">
-                                                    <p class="mb-0 text-sm">{{ item.CommunityProfile.name }}</p>
+                                                    <p class="mb-0 text-sm">{{ item.name }}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm mb-0">{{ item.CommunityProfile.radius }}</p>
+                                            <p class="text-sm mb-0">{{ item.radius }}</p>
                                         </td>
                                         <td>
                                             <span class="text-xs">{{
-                                                item.CommunityProfile.address }}</span>
+                                                item.address }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-xs">{{
+                                                item?.communityAuthUrl }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold"><a target="_blank"
-                                                    :href="`/playground-community?coords=${JSON.stringify(item.CommunityProfile.location.coordinates)}&radius=${item.CommunityProfile.radius}&communityName=${item.CommunityProfile.name}`"
+                                                    :href="`/playground-community?coords=${JSON.stringify(item.location.coordinates)}&radius=${item.radius}&communityName=${item.name}`"
                                                     class="nav-link">Playground</a></span>
                                         </td>
                                         <td class="align-middle">

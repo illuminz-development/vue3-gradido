@@ -4,11 +4,11 @@
         <dl class="row">
             <dt class="col-sm-4 text-sm mb-2">Name</dt>
             <dd class="col-sm-8 text-sm mb-2">
-                <p class="text-sm mb-0">{{ data?.user?.name }}</p>
+                <p class="text-sm mb-0">{{ data?.user?.firstName }} {{ data?.user?.lastName }}</p>
             </dd>
-            <dt class="col-sm-4 text-sm mb-2">Address</dt>
+            <dt class="col-sm-4 text-sm mb-2">Email</dt>
             <dd class="col-sm-8 text-sm mb-2">
-                <p class="text-sm mb-0">{{ data?.user?.address }}</p>
+                <p class="text-sm mb-0">{{ data?.email }}</p>
             </dd>
         </dl>
     </div>

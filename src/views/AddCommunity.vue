@@ -38,6 +38,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <label for="example-text-input" class="form-control-label">Community auth url</label>
+                                    <div class="form-group">
+                                        <input v-model="communityAuthUrl" type="url" class="form-control"
+                                            name="communityAuthUrl" />
+                                        <span class="form-input-error" v-if="v$.communityAuthUrl.$error"> {{
+                                            v$.communityAuthUrl.$errors[0].$message }} </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
                                     <label for="example-text-input" class="form-control-label">Description</label>
                                     <div class="form-group">
                                         <textarea v-model="description" class="form-control" name="radius"></textarea>
@@ -88,7 +97,8 @@ export default {
             communityUuid: { required: helpers.withMessage('UUID is required', required) },
             radius: { required: helpers.withMessage('Radius is required', required) },
             description: { required: helpers.withMessage('Description is required', required) },
-            address: { required: helpers.withMessage('Location is required', required) }
+            address: { required: helpers.withMessage('Location is required', required) },
+            communityAuthUrl: { required: helpers.withMessage('Community auth url is required', required) }
         }
     },
     data() {
@@ -99,6 +109,7 @@ export default {
             description: '',
             address: '',
             location: [],
+            communityAuthUrl: '',
             accessToken: process.env.VUE_APP_MAPBOX_KEY
         }
     },
@@ -121,7 +132,7 @@ export default {
             e.preventDefault();
             this.v$.$validate() // checks all inputs
             if (!this.v$.$error && this.address.length > 0) {
-                CommunityService.add({ communityUuid: `${this.communityUuid}`, name: this.name, radius: this.radius, description: this.description, location: this.location, address: this.address }).then(() => {
+                CommunityService.add({ communityUuid: `${this.communityUuid}`, name: this.name, radius: this.radius, description: this.description, location: this.location, address: this.address, communityAuthUrl: this.communityAuthUrl }).then(() => {
                     this.$router.push('/dashboard/communities');
                 })
             }

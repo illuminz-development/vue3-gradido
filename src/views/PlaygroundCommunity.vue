@@ -98,12 +98,12 @@ export default {
             // Add nearby users markers to the map
             if (this.nearByUsers.length > 0) {
                 this.nearByUsers.map(nu => {
-                    const coords = nu.CommunityProfile.location.coordinates;
-                    const radius = nu.CommunityProfile.radius
+                    const coords = nu.location.coordinates;
+                    const radius = nu.radius
                     if (coords[1] == this.coords[1] && coords[0] == this.coords[0])
                         return;
 
-                    const popup = new mapboxgl.Popup({ closeOnClick: false, offset: 25 }).setHTML(`<h6 class="m-0">${nu.CommunityProfile.name}</h6><p class="text-xs">${nu.CommunityProfile.address}</p><p class="text-sm">${nu.CommunityProfile.description}</p>`);
+                    const popup = new mapboxgl.Popup({ closeOnClick: false, offset: 25 }).setHTML(`<h6 class="m-0">${nu.name}</h6><p class="text-xs">${nu.address}</p><p class="text-sm">${nu.description}</p>`);
 
                     new mapboxgl.Marker({ color: this.markerColor }).setLngLat([coords[0], coords[1]]).setPopup(popup).addTo(this.map);
                     // Draw a circle with given radius

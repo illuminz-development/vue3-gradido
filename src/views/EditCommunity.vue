@@ -39,6 +39,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <label for="example-text-input" class="form-control-label">Community auth url</label>
+                                    <div class="form-group">
+                                        <input v-model="communityAuthUrl" type="url" class="form-control"
+                                            name="communityAuthUrl" />
+                                        <span class="form-input-error" v-if="v$.communityAuthUrl.$error"> {{
+                                            v$.communityAuthUrl.$errors[0].$message }} </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
                                     <label for="example-text-input" class="form-control-label">Description</label>
                                     <div class="form-group">
                                         <textarea v-model="description" class="form-control" name="radius"></textarea>
@@ -89,6 +98,7 @@ export default {
         return {
             name: { required: helpers.withMessage('Name is required', required) },
             communityUuid: { required: helpers.withMessage('UUID is required', required) },
+            communityAuthUrl: { required: helpers.withMessage('Community auth Url is required', required) },
             radius: { required: helpers.withMessage('Radius is required', required) },
             description: { required: helpers.withMessage('Description is required', required) },
             address: { required: helpers.withMessage('Location is required', required) }
@@ -100,6 +110,7 @@ export default {
             name: '',
             radius: '',
             description: '',
+            communityAuthUrl: '',
             address: '',
             location: [0, 0],
             accessToken: process.env.VUE_APP_MAPBOX_KEY
@@ -116,13 +127,14 @@ export default {
         },
         fetch() {
             CommunityService.fetchById(this.$route.params.id).then(response => {
-                const { communityUuid, CommunityProfile } = response.data.responseData;
-                this.communityUuid = communityUuid;
-                this.name = CommunityProfile.name;
-                this.radius = CommunityProfile.radius;
-                this.description = CommunityProfile.description;
-                this.address = CommunityProfile.address;
-                this.location = CommunityProfile.location.coordinates
+                const record = response.data.responseData;
+                this.communityUuid = record.communityUuid;
+                this.name = record.name;
+                this.radius = record.radius;
+                this.description = record.description;
+                this.address = record.address;
+                this.communityAuthUrl = record?.communityAuthUrl,
+                this.location = record.location.coordinates
             })
         },
         setPlace(data) {
@@ -135,7 +147,7 @@ export default {
             e.preventDefault();
             this.v$.$validate() // checks all inputs
             if (!this.v$.$error && this.address.length > 0) {
-                CommunityService.edit(this.$route.params.id, { communityUuid: `${this.communityUuid}`, name: this.name, radius: this.radius, description: this.description, location: this.location, address: this.address }).then(() => {
+                CommunityService.edit(this.$route.params.id, { communityUuid: `${this.communityUuid}`, name: this.name, radius: this.radius, description: this.description, location: this.location, address: this.address, communityAuthUrl: this.communityAuthUrl }).then(() => {
                     this.$router.push('/dashboard/communities');
                 })
             }

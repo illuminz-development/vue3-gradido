@@ -63,11 +63,12 @@
                                         </td> -->
                                         <td>
                                             <span class="text-sm">{{
-                                                item.CommunityProfile?.name }}</span>
+                                                item.Community?.name }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{
-                                                item.User.UserProfile.name }}</span>
+                                                item.User.UserProfile.firstName }} {{
+                                                item.User.UserProfile.lastName }}</span>
                                         </td>
                                         <td>
                                             <span class="text-xs font-weight-bold">{{

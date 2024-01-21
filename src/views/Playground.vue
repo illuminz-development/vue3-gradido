@@ -114,6 +114,7 @@ export default {
             if (this.nearByUsers.length > 0) {
                 this.nearByUsers.map(nu => {
                     const coords = nu.UserProfile.location.coordinates
+                    console.log('8888888', nu);
                     if (coords[1] == this.coords[1] && coords[0] == this.coords[0])
                         return;
                     const $this = this;
@@ -121,13 +122,16 @@ export default {
                     // customMarkerElement.src = this.markerImg;
                     let marker = new mapboxgl.Marker({ color: this.markerColor }).setLngLat([coords[0], coords[1]]).addTo(this.map);
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
-                    marker.getElement().dataset.community = JSON.stringify(nu.UserAccounts?.[0]?.name ?? 'Unknown');
+                    marker.getElement().dataset.community = JSON.stringify(nu.Communities?.[0]?.name ?? 'Unknown');
+                    marker.getElement().dataset.email = JSON.stringify(nu?.email);
                     marker.getElement().dataset.user = JSON.stringify(nu.UserProfile);
+                    
                     marker.getElement().addEventListener('click', function () {
                         const detail = JSON.parse(this.dataset.detail);
                         const user = JSON.parse(this.dataset.user);
                         const community = JSON.parse(this.dataset.community);
-                        $this.offerNeedDetail = { community, user, offerNeeds: {} };
+                        const email = JSON.parse(this.dataset.email);
+                        $this.offerNeedDetail = { community, user, offerNeeds: {}, email };
                         if (detail.length > 0) {
                             $this.offerNeedDetail = { ...$this.offerNeedDetail, offerNeeds: _.groupBy(detail, key => key.type) };
                         }

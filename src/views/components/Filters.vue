@@ -9,8 +9,8 @@
                             placeholder="Select Community">
                             <option value=""></option>
                             <option v-for="item in communitiesList" :key="item"
-                                :value="item?.CommunityProfile?.communityId">{{
-                                    item?.CommunityProfile?.name }}</option>
+                                :value="item?.id">{{
+                                    item?.name }}</option>
                         </select>
                     </div>
                 </div>
