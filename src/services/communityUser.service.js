@@ -7,6 +7,9 @@ class CommunityUserService {
   fetchNearBy(params = {}) {
     return api.get('/nearby-user', {params});
   }
+  fetchNearByPlayground(params = {}) {
+    return api.get('/nearby-playground-user', {params});
+  }
 }
 
 export default new CommunityUserService();

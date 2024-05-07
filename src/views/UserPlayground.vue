@@ -6,7 +6,7 @@
                     <div class="card-header pb-0">
                         <h6>Playground</h6>
                     </div>
-                    <filters :callback="fetch" :filters="{ communityId: '', type: '0', radius }" />
+                    <filters :callback="fetch" :filters="{ radius }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="row">
                             <div class="col-md-12">
@@ -41,12 +41,13 @@ import OfferNeedDetails from './components/OfferNeedDetails.vue';
 import _ from 'lodash';
 
 export default {
-    name: 'playground',
+    name: 'UserPlayground',
     components: { Filters, OfferNeedDetails },
     data() {
         return {
             coords: null,
             radius: 15,
+            userUuid: null,
             map: null,
             offerNeedDetail: null,
             nearByUsers: [],
@@ -60,12 +61,13 @@ export default {
         },
         fetch(filters = {}) {
             const rad = filters?.radius ?? 15;
-            this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
-            CommunityUserService.fetchNearBy({ type: filters?.type ?? 0, radius: rad, communityId: filters?.communityId, latitude: this.coords[1], longitude: this.coords[0] }).then(response => {
+            this.userUuid = this.$route?.query?.userUuid;
+            //this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
+            CommunityUserService.fetchNearByPlayground({ radius: rad, userUuid: this.userUuid }).then(response => {
                 this.radius = rad;
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
-                //this.markerImg = filters?.type == '1' ? '/diamond.png' : (filters?.type == '2' ? '/umbrella.png' : 'person.png');
+                this.coords = response.data.responseData.coords;
                 this.markerColor = filters?.type == '1' ? 'blue' : (filters?.type == '2' ? 'green' : 'black');
                 setTimeout(this.drawMap, 1);
             })
@@ -151,10 +153,18 @@ export default {
         }
     },
     created() {
-        this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
+      // this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
+      this.$store.state.hideConfigButton = true;
+      this.$store.state.showNavbar = false;
+      this.$store.state.showSidenav = false;
+      this.$store.state.showFooter = false;
+      // body.classList.remove("bg-gray-100");
     },
     beforeUnmount() {
-        this.map.remove();
+        // this.map.remove();
+        this.$store.state.hideConfigButton = false;
+      this.$store.state.showSidenav = true;
+      // body.classList.add("bg-gray-100");
     }
 }
 </script>

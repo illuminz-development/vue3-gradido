@@ -19,6 +19,7 @@ import Signin from "../views/Signin.vue";
 import Logout from '../views/Logout.vue';
 import Playground from '../views/Playground.vue';
 import PlaygroundCommunity from '../views/PlaygroundCommunity.vue';
+import UserPlayground from '../views/UserPlayground.vue';
 
 const routes = [
   {
@@ -203,6 +204,11 @@ const routes = [
     path: "/playground-community",
     name: "PlaygroundCommunity",
     component: PlaygroundCommunity
+  },
+  {
+    path: "/user-playground",
+    name: "UserPlayground",
+    component: UserPlayground
   }
 ];
 
