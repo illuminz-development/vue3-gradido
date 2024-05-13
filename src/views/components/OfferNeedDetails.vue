@@ -6,9 +6,9 @@
             <dd class="col-sm-8 text-sm mb-2">
                 <p class="text-sm mb-0">{{ data?.user?.firstName }} {{ data?.user?.lastName }}</p>
             </dd>
-            <dt class="col-sm-4 text-sm mb-2">Email</dt>
+            <dt class="col-sm-4 text-sm mb-2">Alias</dt>
             <dd class="col-sm-8 text-sm mb-2">
-                <p class="text-sm mb-0">{{ data?.email }}</p>
+                <p class="text-sm mb-0">{{ data?.user?.alias }}</p>
             </dd>
         </dl>
     </div>

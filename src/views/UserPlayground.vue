@@ -6,7 +6,7 @@
                     <div class="card-header pb-0">
                         <h6>Playground</h6>
                     </div>
-                    <filters :callback="fetch" :filters="{ radius }" />
+                    <filters :callback="fetch" :filters="{ community: '', radius, token: this.$route?.query?.token }" />
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="row">
                             <div class="col-md-12">
@@ -47,7 +47,7 @@ export default {
         return {
             coords: null,
             radius: 15,
-            userUuid: null,
+            token: null,
             map: null,
             offerNeedDetail: null,
             nearByUsers: [],
@@ -61,9 +61,9 @@ export default {
         },
         fetch(filters = {}) {
             const rad = filters?.radius ?? 15;
-            this.userUuid = this.$route?.query?.userUuid;
+            this.token = this.$route?.query?.token;
             //this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
-            CommunityUserService.fetchNearByPlayground({ radius: rad, userUuid: this.userUuid }).then(response => {
+            CommunityUserService.fetchNearByPlayground({ radius: rad, token: this.token, community: filters?.community }).then(response => {
                 this.radius = rad;
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
@@ -118,12 +118,13 @@ export default {
                 this.nearByUsers.map(nu => {
                     const coords = nu.UserProfile.location.coordinates
                     console.log('8888888', nu);
+                    let type = nu.UserProfile.type;
                     if (coords[1] == this.coords[1] && coords[0] == this.coords[0])
                         return;
                     const $this = this;
                     // const customMarkerElement = document.createElement('img');
                     // customMarkerElement.src = this.markerImg;
-                    let marker = new mapboxgl.Marker({ color: this.markerColor }).setLngLat([coords[0], coords[1]]).addTo(this.map);
+                    let marker = new mapboxgl.Marker({ color: type == '1' ? 'blue' : (type == '2' ? 'green' : 'black') }).setLngLat([coords[0], coords[1]]).addTo(this.map);
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
                     marker.getElement().dataset.community = JSON.stringify(nu.Communities?.[0]?.name ?? 'Unknown');
                     marker.getElement().dataset.email = JSON.stringify(nu?.email);

@@ -1,20 +1,6 @@
 <template>
     <div class="card-header filters pb-0">
         <div class="row">
-            <div class="col-3" v-if="typeof filters.community != 'undefined'">
-                <div class="form-group">
-                    <div>
-                        <label>Community</label>
-                        <select v-model="filter.community" type="text" class="form-control form-select p-1"
-                            placeholder="Select Community">
-                            <option value=""></option>
-                            <option v-for="item in communitiesList" :key="item"
-                                :value="item?.id">{{
-                                    item?.name }}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="col-3" v-if="typeof filters.communityId != 'undefined'">
                 <div class="form-group">
                     <div>
@@ -150,11 +136,6 @@ export default {
         }
     },
     methods: {
-        communities() {
-            communityService.list().then(response => {
-                this.communitiesList = response.data.responseData.data;
-            })
-        },
         categories() {
             let filters = {};
             filters = {...filters, allLanguage: 0}
@@ -163,9 +144,7 @@ export default {
             })
         },
         communityList() {
-            let filters = {};
-            filters = {...filters, token: this.$route.query.token}
-            communityService.listViaToken(filters).then(response => {
+            communityService.listViaToken().then(response => {
                 this.communitiesList = response.data.responseData.data;
             })
         },
@@ -184,8 +163,7 @@ export default {
     },
 
     created() {
-        typeof this.filter.communityId != 'undefined' && this.communities();
-        typeof this.filter.community != 'undefined' && this.communityList();
+        typeof this.filter.communityId != 'undefined' && this.communityList();
         typeof this.filter.category != 'undefined' && this.categories();
         this.callback(this.clean(this.filter));
     }

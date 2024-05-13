@@ -5,6 +5,10 @@ class CommunityService {
     return api.get('/community/list', {params});
   }
 
+  listViaToken(params = {}) {
+    return api.get('/community-list', {params});
+  }
+
   add(data) {
     return api.post('/community', data);
   }
