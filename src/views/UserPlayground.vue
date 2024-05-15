@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             coords: null,
-            radius: 15,
+            radius: null,
             token: null,
             map: null,
             offerNeedDetail: null,
@@ -60,15 +60,15 @@ export default {
             console.log(result);
         },
         fetch(filters = {}) {
-            const rad = filters?.radius ?? 15;
+            const rad = filters?.radius ?? null;
             this.token = this.$route?.query?.token;
             //this.coords = JSON.parse(this.$route?.query?.coords)?.map(t => parseFloat(t));
             CommunityUserService.fetchNearByPlayground({ radius: rad, token: this.token, community: filters?.community }).then(response => {
-                this.radius = rad;
+                this.radius = response.data.responseData.radius;
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
                 this.coords = response.data.responseData.coords;
-                this.markerColor = filters?.type == '1' ? 'blue' : (filters?.type == '2' ? 'green' : 'black');
+                this.markerColor = filters?.type == '1' ? 'grey' : (filters?.type == '2' ? 'white' : 'black');
                 setTimeout(this.drawMap, 1);
             })
         },
@@ -124,7 +124,7 @@ export default {
                     const $this = this;
                     // const customMarkerElement = document.createElement('img');
                     // customMarkerElement.src = this.markerImg;
-                    let marker = new mapboxgl.Marker({ color: type == '1' ? 'blue' : (type == '2' ? 'green' : 'black') }).setLngLat([coords[0], coords[1]]).addTo(this.map);
+                    let marker = new mapboxgl.Marker({ color: type == '1' ? 'grey' : (type == '2' ? 'white' : 'black') }).setLngLat([coords[0], coords[1]]).addTo(this.map);
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
                     marker.getElement().dataset.community = JSON.stringify(nu.Communities?.[0]?.name ?? 'Unknown');
                     marker.getElement().dataset.email = JSON.stringify(nu?.email);

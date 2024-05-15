@@ -66,7 +66,7 @@ export default {
                 this.nearByUsers = response.data.responseData.data;
                 this.offerNeedDetail = null;
                 //this.markerImg = filters?.type == '1' ? '/diamond.png' : (filters?.type == '2' ? '/umbrella.png' : 'person.png');
-                this.markerColor = filters?.type == '1' ? 'blue' : (filters?.type == '2' ? 'green' : 'black');
+                this.markerColor = filters?.type == '1' ? 'grey' : (filters?.type == '2' ? 'white' : 'black');
                 setTimeout(this.drawMap, 1);
             })
         },
@@ -122,7 +122,7 @@ export default {
                     const $this = this;
                     // const customMarkerElement = document.createElement('img');
                     // customMarkerElement.src = this.markerImg;
-                    let marker = new mapboxgl.Marker({ color: type == '1' ? 'blue' : (type == '2' ? 'green' : 'black') }).setLngLat([coords[0], coords[1]]).addTo(this.map);
+                    let marker = new mapboxgl.Marker({ color: type == '1' ? 'grey' : (type == '2' ? 'white' : 'black') }).setLngLat([coords[0], coords[1]]).addTo(this.map);
                     marker.getElement().dataset.detail = JSON.stringify(nu.OfferAndNeeds);
                     marker.getElement().dataset.community = JSON.stringify(nu.Communities?.[0]?.name ?? 'Unknown');
                     marker.getElement().dataset.email = JSON.stringify(nu?.email);
